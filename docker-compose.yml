@@ -4,11 +4,13 @@ services:
   db:
     build:
       context: .
-      dockerfile: .docker/Dockerfile
-    container_name: mysql_db
+      dockerfile: .docker/db/Dockerfile
+    container_name: db-locadora
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
       MYSQL_DATABASE: database
     ports:
       - "3306:3306"
