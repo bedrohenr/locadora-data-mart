@@ -305,7 +305,7 @@ DROP TABLE IF EXISTS `Veiculo`;
 CREATE TABLE `Veiculo` (
   `cdVeiculo` int NOT NULL AUTO_INCREMENT,
   `placa` varchar(10) DEFAULT NULL,
-  `anoFabricacao` year NOT NULL,
+  `anoFabricacao` int NOT NULL,
   `chassi` varchar(20) NOT NULL,
   `VlrDiariaBase` decimal(10,2) NOT NULL,
   `Fabricante_cdFabricante` int NOT NULL,
