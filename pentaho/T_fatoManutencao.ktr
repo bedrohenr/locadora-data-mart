@@ -476,21 +476,21 @@
   <order>
     <hop>
       <from>Table ManutencaoVeiculo</from>
-      <to>Sort Manutencao</to>
+      <to>Sort SM Manutencao</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort Manutencao</from>
+      <from>Sort SM Manutencao</from>
       <to>Merge MV V</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Table ServicoManutencao</from>
-      <to>Sort SManutencao</to>
+      <to>Sort MV Manutencao</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort SManutencao</from>
+      <from>Sort MV Manutencao</from>
       <to>Merge MV V</to>
       <enabled>Y</enabled>
     </hop>
@@ -520,8 +520,63 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge SUM</from>
+      <from>Sort Veiculo</from>
+      <to>dimVeiculo lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dimVeiculo lookup</from>
+      <to>Sort Servico</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort Servico</from>
+      <to>dimServico lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dimServico lookup</from>
+      <to>Sort dataSaida</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort dataSaida</from>
+      <to>dimDataS lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dimDataS lookup</from>
+      <to>Sort dataConclusao</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort dataConclusao</from>
+      <to>dimDataC lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Sort dataRetorno</from>
+      <to>dimDataR lookup</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dimDataC lookup</from>
+      <to>Sort dataRetorno</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>dimDataR lookup</from>
       <to>Select values 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Merge SUM</from>
+      <to>date to int</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>date to int</from>
+      <to>Sort Veiculo</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -574,8 +629,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>816</xloc>
-      <yloc>80</yloc>
+      <xloc>496</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -591,8 +646,8 @@
       <schema_name/>
     </partitioning>
     <join_type>INNER</join_type>
-    <step1>Sort Manutencao</step1>
-    <step2>Sort SManutencao</step2>
+    <step1>Sort SM Manutencao</step1>
+    <step2>Sort MV Manutencao</step2>
     <keys_1>
       <key>cdManutencao</key>
     </keys_1>
@@ -608,8 +663,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>528</xloc>
-      <yloc>192</yloc>
+      <xloc>272</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -644,8 +699,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>928</xloc>
-      <yloc>176</yloc>
+      <xloc>608</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -667,16 +722,19 @@
       </field>
       <field>
         <name>ServicoManutencao_cdServico</name>
-        <rename>dimVeiculo_codServico</rename>
+        <rename>dimServico_codServico</rename>
       </field>
       <field>
         <name>dtSaida</name>
+        <rename/>
       </field>
       <field>
         <name>dtConclusao</name>
+        <rename/>
       </field>
       <field>
         <name>dtRetorno</name>
+        <rename/>
       </field>
       <field>
         <name>custo</name>
@@ -689,7 +747,7 @@
       <select_unspecified>N</select_unspecified>
       <meta>
         <name>dtSaida</name>
-        <rename>dimData_dataSaida</rename>
+        <rename>dimData_dataSaidaDATE</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -706,7 +764,7 @@
       </meta>
       <meta>
         <name>dtConclusao</name>
-        <rename>dimData_dataConclusao</rename>
+        <rename>dimData_dataConclusaoDATE</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -723,7 +781,7 @@
       </meta>
       <meta>
         <name>dtRetorno</name>
-        <rename>dimData_dataRetorno</rename>
+        <rename>dimData_dataRetornoDATE</rename>
         <type>Date</type>
         <length>-2</length>
         <precision>-2</precision>
@@ -748,8 +806,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>736</xloc>
-      <yloc>272</yloc>
+      <xloc>608</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -767,24 +825,31 @@
     <fields>
       <field>
         <name>dimVeiculo_codVeiculo</name>
+        <rename/>
       </field>
       <field>
-        <name>dimVeiculo_codServico</name>
+        <name>dimServico_codServico</name>
+        <rename/>
       </field>
       <field>
         <name>dimData_dataSaida</name>
+        <rename/>
       </field>
       <field>
         <name>dimData_dataConclusao</name>
+        <rename/>
       </field>
       <field>
         <name>dimData_dataRetorno</name>
+        <rename/>
       </field>
       <field>
         <name>vlrServico</name>
+        <rename/>
       </field>
       <field>
         <name>vlrTotalManutencao</name>
+        <rename/>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -797,13 +862,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1024</xloc>
-      <yloc>176</yloc>
+      <xloc>752</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort Manutencao</name>
+    <name>Sort SM Manutencao</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -839,13 +904,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>80</yloc>
+      <xloc>432</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort SManutencao</name>
+    <name>Sort MV Manutencao</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -881,8 +946,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>288</yloc>
+      <xloc>448</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -931,8 +996,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>80</yloc>
+      <xloc>384</xloc>
+      <yloc>256</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1064,8 +1129,8 @@ FROM `database`.ManutencaoVeiculo
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
-      <yloc>144</yloc>
+      <xloc>272</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1221,8 +1286,8 @@ FROM `database`.ServicoManutencao
       </output>
     </remotesteps>
     <GUI>
-      <xloc>304</xloc>
-      <yloc>240</yloc>
+      <xloc>272</xloc>
+      <yloc>464</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1265,8 +1330,524 @@ FROM `database`.ServicoManutencao
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1168</xloc>
-      <yloc>176</yloc>
+      <xloc>928</xloc>
+      <yloc>464</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dimVeiculo lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimensional</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dimensional</schema>
+      <table>dimVeiculo</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>dimVeiculo_codVeiculo</name>
+        <field>codVeiculo</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>codVeiculo</name>
+        <rename>codVeiculo</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort Veiculo</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>dimVeiculo_codVeiculo</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dimServico lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimensional</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dimensional</schema>
+      <table>dimServico</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>dimServico_codServico</name>
+        <field>cdServico</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cdServico</name>
+        <rename>cdServico</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort Servico</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>dimServico_codServico</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dimDataS lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimensional</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dimensional</schema>
+      <table>dimData</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>dimData_dataSaida</name>
+        <field>codData</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>codData</name>
+        <rename>codData</rename>
+        <default/>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort dataSaida</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>dimData_dataSaida</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dimDataC lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimensional</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dimensional</schema>
+      <table>dimData</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>dimData_dataConclusao</name>
+        <field>codData</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>codData</name>
+        <rename>codData</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort dataConclusao</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>dimData_dataConclusao</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>dimDataR lookup</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>dimensional</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>dimensional</schema>
+      <table>dimData</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>dimData_dataRetorno</name>
+        <field>codData</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>codData</name>
+        <rename>codData</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>928</xloc>
+      <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Sort dataRetorno</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>out</prefix>
+    <sort_size>1000000</sort_size>
+    <free_memory/>
+    <compress>N</compress>
+    <compress_variable/>
+    <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>dimData_dataRetorno</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>752</xloc>
+      <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>date to int</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>function getDateINT(date){
+	return parseInt(date2str(date, "yyyyMMdd"));
+}
+
+var dataSaidaINT = getDateINT(dimData_dataSaidaDATE);
+var dataConclusaoINT = getDateINT(dimData_dataConclusaoDATE);
+var dataRetornoINT = getDateINT(dimData_dataRetornoDATE);</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>dataSaidaINT</name>
+        <rename>dimData_dataSaida</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>dataConclusaoINT</name>
+        <rename>dimData_dataConclusao</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>dataRetornoINT</name>
+        <rename>dimData_dataRetorno</rename>
+        <type>Integer</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
